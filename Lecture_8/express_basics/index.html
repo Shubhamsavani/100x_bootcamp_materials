@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    </head>
+    <script>
+        // GET request passing data by using queries
+        async function add(){
+            const a= document.getElementById("inp1").value;
+            const b= document.getElementById("inp2").value;
+
+            const res = await fetch("http://localhost:3000/sum?a="+a+"&b="+b);
+            const json = await res.json()
+
+            document.getElementById("response").innerHTML = json.ans;
+        }
+
+        // GET request passing data with path parameters
+        async function sub(){
+            const a= document.getElementById("inp1").value;
+            const b= document.getElementById("inp2").value;
+
+            const res = await fetch("http://localhost:3000/sub/"+a+"/"+b);
+            const json = await res.json();
+            document.getElementById("response").innerHTML = json.ans;
+        }
+
+        // GET request passing the data with body
+        async function mul(){
+            const a = document.getElementById("inp1").value;
+            const b = document.getElementById("inp2").value;
+            
+
+            const res = await fetch("http://localhost:3000/mul", {
+                method: "POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({
+                    a: a,
+                    b: b
+                })
+            });
+            const json = await res.json();
+
+            document.getElementById("response").innerHTML = json.ans;
+        }
+
+        // POST request passing data with body
+        async function div(){
+            const a= document.getElementById("inp1").value;
+            const b= document.getElementById("inp2").value;
+
+            // fetch("<URL>","<data>");
+            const res = await fetch("http://localhost:3000/div/", {
+                method: "POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({
+                a: a,
+                b: b
+                })
+            });
+            const json = await res.json();
+            console.log(json);
+            document.getElementById("response").innerHTML = json.ans;
+        }
+    </script>
+<body>
+    <h1>My calculator app</h1>
+
+    <input id="inp1" type="text" placeholder="First digit">
+    <input id="inp2" type="text" placeholder="Second digit">
+
+    <button onclick="add()">Add</button>
+    <button onclick="sub()">Substract</button>
+    <button onclick="mul()">Multiply</button>
+    <button  onclick="div()">Divide</button>
+
+    <div id="response"></div>
+</body>
+</html>
